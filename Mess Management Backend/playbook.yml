@@ -1,0 +1,20 @@
+---
+- name: run containers
+  hosts: docker
+  become: true
+
+  tasks:
+    - name: copy docker file
+      copy:
+        src: docker-compose.yml
+        dest: docker-compose.yml
+    - name: shell docker
+      shell:
+        cmd: docker-compose down
+#    - name: dockercompose
+#      docker_compose:
+#        project_src: .
+#        state: present
+    - name: shell docker
+      shell:
+        cmd: docker-compose up
