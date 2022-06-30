@@ -1,0 +1,47 @@
+version: '3.5'
+services:
+#   app:
+#     build: 
+#       context: .
+#     volumes:
+#       - .:/my-app
+    
+
+    
+  frontend:
+    image: "rmnchhabra/frontend:v1"
+    ports:
+      - "3000:3000"
+    container_name: frontend_container1
+    command: npm start
+
+  backend:
+    image: "rmnchhabra/messmgmt:v1"
+    ports:
+      - "5002:5002"
+    container_name: backend_container_sql1
+    restart: on-failure
+    environment:
+      - MYSQL_HOST=mydb
+      - MYSQL_PORT=3306
+    #  - MYSQL_USER=root
+    #  - MYSQL_PASSWORD=root
+    depends_on:
+      - mydb
+
+  mydb:
+    image: "mysql:latest"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data1:/var/lib/mysql
+    container_name: database_container
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=Mess
+      - MYSQL_USER=raman
+      - MYSQL_PASSWORD=password
+
+volumes:
+  mysql-data1:
+  
